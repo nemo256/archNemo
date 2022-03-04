@@ -1,6 +1,6 @@
 # ArchNemo Installer Script
 
-![Image](./nvimftw.png)
+![Image](nvimForTheWin.png)
 
 This README contains the steps I do to install and configure a fully-functional Arch Linux installation containing a window tiling manager (DWM), all the support packages (network, bluetooth, audio, etc.), along with all my preferred applications and utilities. The shell scripts in this repo allow the entire process to be automated.
 
