@@ -13,7 +13,7 @@ echo -ne "
                         SCRIPTHOME: archNemo
 --------------------------------------------------------------------------
 "
-source $HOME/archNemo/configs/setup.conf
+source $HOME/archNemo/setup.conf
 echo -ne "
 --------------------------------------------------------------------------
                     Network Setup 
@@ -60,7 +60,7 @@ echo -ne "
 --------------------------------------------------------------------------
 "
 # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
-# stop the script and move on, not installing any more packages below that line
+# Stop the script and move on, not installing any more packages below that line
 if [[ ! $DESKTOP_ENV == server ]]; then
   sed -n '/'$INSTALL_TYPE'/q;p' $HOME/archNemo/packages.list | while read line
   do
@@ -106,8 +106,9 @@ elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
 elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl vulkan-intel libva-intel-driver libva-utils
 fi
+
 #SETUP IS WRONG THIS IS RUN
-if ! source $HOME/archNemo/configs/setup.conf; then
+if ! source $HOME/archNemo/setup.conf; then
 	# Loop through user input until the user gives a valid username
 	while true
 	do 
@@ -121,11 +122,11 @@ if ! source $HOME/archNemo/configs/setup.conf; then
 		echo "Incorrect username."
 	done 
 # convert name to lowercase before saving to setup.conf
-echo "username=${username,,}" >> ${HOME}/ArchTitus/configs/setup.conf
+echo "username=${username,,}" >> ${HOME}/archNemo/setup.conf
 
-    #Set Password
+    # Set Password
     read -p "Please enter password:" password
-echo "password=${password,,}" >> ${HOME}/ArchTitus/configs/setup.conf
+echo "password=${password,,}" >> ${HOME}/archNemo/setup.conf
 
     # Loop through user input until the user gives a valid hostname, but allow the user to force save 
 	while true
@@ -144,7 +145,7 @@ echo "password=${password,,}" >> ${HOME}/ArchTitus/configs/setup.conf
 		fi 
 	done 
 
-    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/ArchTitus/configs/setup.conf
+    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/archNemo/setup.conf
 fi
 echo -ne "
 --------------------------------------------------------------------------

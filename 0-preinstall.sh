@@ -14,7 +14,7 @@ echo -ne "
 
 Setting up mirrors for optimal download
 "
-source $CONFIGS_DIR/setup.conf
+source $SCRIPT_DIR/setup.conf
 timedatectl set-ntp true
 pacman -S --noconfirm archlinux-keyring #update keyrings to latest to prevent packages failing to install
 pacman -S --noconfirm --needed pacman-contrib terminus-font
@@ -45,7 +45,7 @@ umount -A --recursive /mnt # make sure everything is unmounted before we start
 sgdisk -Z ${DISK} # zap all on disk
 sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
 
-# create partitions
+# Create partitions
 sgdisk -n 1::+128M --typecode=1:af00 --change-name=1:'Boot Loader' ${DISK} # partition 1 (Boot loader Partition)
 sgdisk -n 2::+256M --typecode=2:8300 --change-name=2:'Boot' ${DISK} # partition 2 (Boot Partition)
 sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'Root' ${DISK} # partition 3 (Root), default start, remaining space
@@ -55,7 +55,7 @@ if [[ ! -d "/sys/firmware/efi" ]]; then # Checking for bios system
 fi
 partprobe ${DISK} # reread partition table to ensure it is correct
 
-# make filesystems
+# Make filesystems
 echo -ne "
 --------------------------------------------------------------------------
                     Creating Filesystems
@@ -69,7 +69,7 @@ mkfs.ext4 -L Boot ${partition2}
 mkfs.ext4 -L Root ${partition3}
 mount -t ext4 ${partition3} /mnt
 
-# mount target
+# Mount target
 mkdir /mnt/boot
 mount -L Boot /mnt/boot/
 
@@ -121,10 +121,10 @@ if [[  $TOTAL_MEM -lt 8000000 ]]; then
     mkswap /mnt/opt/swap/swapfile
     swapon /mnt/opt/swap/swapfile
     # The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the system itself.
-    echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab # Add swap to fstab, so it KEEPS working after installation.
+    echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab # add swap to fstab, so it KEEPS working after installation.
 fi
 echo -ne "
 --------------------------------------------------------------------------
-                    SYSTEM READY FOR 1-setup.sh
+                    SYSTEM READY FOR 1-install.sh
 --------------------------------------------------------------------------
 "
