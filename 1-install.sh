@@ -56,28 +56,20 @@ pacman -Sy --noconfirm --needed
 
 echo -ne "
 --------------------------------------------------------------------------
-                    Installing Base System  
+                    Installing Base System (packages)
 --------------------------------------------------------------------------
 "
-# sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
-# Stop the script and move on, not installing any more packages below that line
-if [[ ! $DESKTOP_ENV == server ]]; then
-  sed -n '/'$INSTALL_TYPE'/q;p' $HOME/archNemo/packages.list | while read line
-  do
-    if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]; then
-      # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
-      continue
-    fi
-    echo "INSTALLING: ${line}"
-    sudo pacman -S --noconfirm --needed ${line}
-  done
-fi
+sed -n '/'$INSTALL_TYPE'/q;p' $HOME/archNemo/packages.list | while read line
+do
+  echo "INSTALLING: ${line}"
+  sudo pacman -S --noconfirm --needed ${line}
+done
 echo -ne "
 --------------------------------------------------------------------------
                     Installing Microcode
 --------------------------------------------------------------------------
 "
-# determine processor type and install microcode
+# Determine processor type and install microcode
 proc_type=$(lscpu)
 if grep -E "GenuineIntel" <<< ${proc_type}; then
     echo "Installing Intel microcode"
@@ -107,69 +99,29 @@ elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl vulkan-intel libva-intel-driver libva-utils
 fi
 
-#SETUP IS WRONG THIS IS RUN
-if ! source $HOME/archNemo/setup.conf; then
-	# Loop through user input until the user gives a valid username
-	while true
-	do 
-		read -p "Please enter username:" username
-		# username regex per response here https://unix.stackexchange.com/questions/157426/what-is-the-regex-to-validate-linux-users
-		# lowercase the username to test regex
-		if [[ "${username,,}" =~ ^[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$ ]]
-		then 
-			break
-		fi 
-		echo "Incorrect username."
-	done 
-# convert name to lowercase before saving to setup.conf
-echo "username=${username,,}" >> ${HOME}/archNemo/setup.conf
-
-    # Set Password
-    read -p "Please enter password:" password
-echo "password=${password,,}" >> ${HOME}/archNemo/setup.conf
-
-    # Loop through user input until the user gives a valid hostname, but allow the user to force save 
-	while true
-	do 
-		read -p "Please name your machine:" name_of_machine
-		# hostname regex (!!couldn't find spec for computer name!!)
-		if [[ "${name_of_machine,,}" =~ ^[a-z][a-z0-9_.-]{0,62}[a-z0-9]$ ]]
-		then 
-			break 
-		fi 
-		# if validation fails allow the user to force saving of the hostname
-		read -p "Hostname doesn't seem correct. Do you still want to save it? (y/n)" force 
-		if [[ "${force,,}" = "y" ]]
-		then 
-			break 
-		fi 
-	done 
-
-    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/archNemo/setup.conf
-fi
 echo -ne "
 --------------------------------------------------------------------------
                     Adding User
 --------------------------------------------------------------------------
 "
-if [ $(whoami) = "root" ]; then
-    groupadd libvirt
-    useradd -m -G wheel,libvirt -s /bin/bash $USERNAME 
-    echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
+# if [ $(whoami) = "root" ]; then
+#     groupadd libvirt
+#     useradd -m -G wheel,libvirt -s /bin/bash $USERNAME 
+#     echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
 
-# use chpasswd to enter $USERNAME:$password
-    echo "$USERNAME:$PASSWORD" | chpasswd
-    echo "$USERNAME password set"
+# # Use chpasswd to enter $USERNAME:$PASSWORD
+#     echo "$USERNAME:$PASSWORD" | chpasswd
+#     echo "$USERNAME password set"
 
-	cp -R $HOME/archNemo /home/$USERNAME/
-    chown -R $USERNAME: /home/$USERNAME/archNemo
-    echo "archNemo copied to home directory"
+# 	cp -R $HOME/archNemo /home/$USERNAME/
+#     chown -R $USERNAME: /home/$USERNAME/archNemo
+#     echo "archNemo copied to home directory"
 
-# enter $NAME_OF_MACHINE to /etc/hostname
-	echo $NAME_OF_MACHINE > /etc/hostname
-else
-	echo "You are already a user proceed with aur installs"
-fi
+# # enter $NAME_OF_MACHINE to /etc/hostname
+# 	echo $NAME_OF_MACHINE > /etc/hostname
+# else
+# 	echo "You are already a user proceed with aur installs"
+# fi
 echo -ne "
 --------------------------------------------------------------------------
                     SYSTEM READY FOR 2-user.sh
