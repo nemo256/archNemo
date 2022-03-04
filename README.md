@@ -25,5 +25,5 @@ This is a completely automated arch install of my dwm, st... setup on arch using
 
 ## Credits
 
-- Thank you to ChrisTitusTech and all contributors who made this possible: https://github.com/ChrisTitusTech/ArchTitus
+- Big thank you to ChrisTitusTech and all contributors who made this possible: https://github.com/ChrisTitusTech/ArchTitus
 - Original packages script was a post install cleanup script called ArchMatic located here: https://github.com/rickellis/ArchMatic
