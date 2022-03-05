@@ -43,6 +43,7 @@ while true; do
   read -s password2 # read password without echo
 
   if [ "$password" = "$password2" ]; then
+    set_option USERNAME root
     set_option PASSWORD $password
     break
   else

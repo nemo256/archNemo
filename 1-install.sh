@@ -104,7 +104,8 @@ echo -ne "
                     Adding User
 --------------------------------------------------------------------------
 "
-passwd
+
+echo "$USERNAME:$PASSWORD" | chpasswd
 echo "$NAME_OF_MACHINE" > /etc/hostname
 
 echo -ne "

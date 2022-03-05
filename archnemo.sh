@@ -36,3 +36,7 @@ echo -ne "
 --------------------------------------------------------------------------
                 Done - Please Eject Install Media and Reboot
 "
+echo "Rebooting in 3..." && sleep 1
+echo "Rebooting in 2..." && sleep 1
+echo "Rebooting in 1..." && sleep 1
+reboot now
