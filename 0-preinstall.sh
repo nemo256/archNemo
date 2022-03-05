@@ -65,13 +65,13 @@ echo -ne "
 partition2=${DISK}2
 partition3=${DISK}3
 
-mkfs.ext4 -L Boot ${partition2}
+mkfs.fat -F32 ${partition2}
 mkfs.ext4 -L Root ${partition3}
 mount -t ext4 ${partition3} /mnt
 
 # Mount target
 mkdir /mnt/boot
-mount -L Boot /mnt/boot/
+mount ${partition2} /mnt/boot/
 
 if ! grep -qs '/mnt' /proc/mounts; then
     echo "Drive is not mounted, can not continue"

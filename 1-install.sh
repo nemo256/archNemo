@@ -104,29 +104,11 @@ echo -ne "
                     Adding User
 --------------------------------------------------------------------------
 "
-echo "root:$PASSWORD" | chpasswd
+passwd
 echo "$NAME_OF_MACHINE" > /etc/hostname
 
-# if [ $(whoami) = "root" ]; then
-#     groupadd libvirt
-#     useradd -m -G wheel,libvirt -s /bin/bash $USERNAME 
-#     echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
-
-# # Use chpasswd to enter $USERNAME:$PASSWORD
-#     echo "$USERNAME:$PASSWORD" | chpasswd
-#     echo "$USERNAME password set"
-
-# 	cp -R $HOME/archNemo /home/$USERNAME/
-#     chown -R $USERNAME: /home/$USERNAME/archNemo
-#     echo "archNemo copied to home directory"
-
-# # enter $NAME_OF_MACHINE to /etc/hostname
-# 	echo $NAME_OF_MACHINE > /etc/hostname
-# else
-# 	echo "You are already a user proceed with aur installs"
-# fi
 echo -ne "
 --------------------------------------------------------------------------
-                    SYSTEM READY FOR 2-user.sh
+                    SYSTEM READY FOR 2-postinstall.sh
 --------------------------------------------------------------------------
 "

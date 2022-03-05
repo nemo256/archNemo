@@ -28,7 +28,8 @@ echo -ne "
 --------------------------------------------------------------------------
 "
 # Set kernel parameter for adding splash screen
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& rootflags=data=writeback libata.force=1:noncq/' /etc/default/grub
+sed -i 's/^#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/' /etc/default/grub
 
 # Updating grub
 echo -e "Updating grub..."
