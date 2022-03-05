@@ -17,11 +17,11 @@ echo -ne "
 --------------------------------------------------------------------------
 "
     ( bash $SCRIPT_DIR/startup.sh )|& tee startup.log
-      # source $SCRIPT_DIR/setup.conf
-    # ( bash $SCRIPT_DIR/0-preinstall.sh )|& tee 0-preinstall.log
-    # ( arch-chroot /mnt $HOME/archNemo/1-install.sh )|& tee 1-install.log
-    # ( arch-chroot /mnt $HOME/archNemo/2-postinstall.sh )|& tee 3-postinstall.log
-    # mkdir $HOME/log && cp -v *.log $HOME/log
+      source $SCRIPT_DIR/setup.conf
+    ( bash $SCRIPT_DIR/0-preinstall.sh )|& tee 0-preinstall.log
+    ( arch-chroot /mnt $HOME/archNemo/1-install.sh )|& tee 1-install.log
+    ( arch-chroot /mnt $HOME/archNemo/2-postinstall.sh )|& tee 3-postinstall.log
+    mkdir $HOME/log && cp -v *.log $HOME/log
 
 echo -ne "
 --------------------------------------------------------------------------
