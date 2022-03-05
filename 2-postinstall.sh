@@ -24,7 +24,7 @@ fi
 
 echo -ne "
 --------------------------------------------------------------------------
-                    Creating Grub Boot Menu
+                    Creating grub boot menu
 --------------------------------------------------------------------------
 "
 # Set kernel parameter for adding splash screen
@@ -38,15 +38,28 @@ echo -e "All set!"
 
 echo -ne "
 -------------------------------------------------------------------------
-                    Enabling Essential Services
+                    Managing essential services
 -------------------------------------------------------------------------
 "
+systemctl disable transmission.service
+echo "  Transmission Daemon disabled"
+systemctl stop transmission.service
+echo "  Transmission Daemon stopped"
 systemctl disable dhcpcd.service
 echo "  DHCP disabled"
 systemctl stop dhcpcd.service
 echo "  DHCP stopped"
 systemctl enable NetworkManager.service
 echo "  NetworkManager enabled"
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Changing default console font
+-------------------------------------------------------------------------
+"
+echo -ne 'KEYMAP="us"
+FONT="ter-v32b"
+' > /etc/vconsole.conf
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -74,16 +87,42 @@ cd ../dmenu && make clean install
 cd ../slock && make clean install
 cd ../slstatus && make clean install
 
-# Grabc
-git clone https://github.com/muquit/grabc
-cd grabc && make install
-
 # Abook
 git clone https://github.com/hhirsch/abook
 cd abook && make install
 
 # Alder
 yarn global add @aweary/alder
+
+# Grabc
+git clone https://github.com/muquit/grabc
+cd grabc && make install
+
+# Tremc
+git clone https://github.com/tremc/tremc
+cd tremc && make install
+
+# Weather-cli
+yarn global add weather-cli
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Cloning backed up directories
+-------------------------------------------------------------------------
+"
+
+git clone https://github.com/nemo256/Documents
+git clone https://github.com/nemo256/Pictures
+mkdir Downloads Videos Music Work
+cd Work
+git clone https://github.com/nemo256/archNemo
+git clone https://github.com/nemo256/collab
+git clone https://github.com/nemo256/DashRecours
+git clone https://github.com/nemo256/hotel
+git clone https://github.com/nemo256/portfolio
+git clone https://github.com/nemo256/Rproject
+git clone https://github.com/nemo256/tc
+cd
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -93,6 +132,7 @@ echo -ne "
 # Removing default files
 rm -fvr $HOME/.bash*
 rm -fvr $HOME/.gitconfig
+rm -fvr $HOME/.config/*
 
 # Dotfiles directory
 cd $HOME/.dotfiles
@@ -113,14 +153,73 @@ stow mimeapps
 stow mpd
 stow mpv
 stow mutt
+stow ncmpcpp
+stow neofetch
+stow newsboat
+stow notmuch
+stow neovim
+stow ranger
+stow transmission-daemon
+stow tremc
+stow weather-cli-nodejs
+stow xinit
+stow yarn
+stow zathura
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Neovim configuration
+-------------------------------------------------------------------------
+"
+# Adding vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Installing neovim plugins
+nvim -c 'PlugInstall | q! | q!'
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Ranger configuration
+-------------------------------------------------------------------------
+"
+# Adding devicons to ranger
+git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Fixing default configuration
+-------------------------------------------------------------------------
+"
+# Touchpad configuration
+echo -ne 'Section "InputClass"
+    Identifier "libinput touchpad catchall"
+    MatchIsTouchpad "on"
+    MatchDevicePath "/dev/input/event*"
+    Option "Tapping" "True"
+    Option "TappingDrag" "True"
+    Option "ScrollMethod" "Twofinger"
+    Option "NaturalScrolling" "False"
+    Option "DisableWhileTyping" "False"
+    Driver "libinput"
+EndSection
+' > /etc/X11/xorg.conf.d/40-libinput.conf
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Re-enabling essential services
+-------------------------------------------------------------------------
+"
+systemctl enable --now transmission.service
+echo "  Transmission Daemon enabled"
+systemctl start transmission.service
+echo "  Transmission Daemon started"
 
 echo -ne "
 -------------------------------------------------------------------------
                     Cleaning
 -------------------------------------------------------------------------
 "
-
-rm -r $HOME/archNemo
-rm -r /home/
+rm -fvr $HOME/archNemo
 
 cd
