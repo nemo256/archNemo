@@ -104,6 +104,9 @@ echo -ne "
                     Adding User
 --------------------------------------------------------------------------
 "
+echo "root:$PASSWORD" | chpasswd
+echo "$NAME_OF_MACHINE" > /etc/hostname
+
 # if [ $(whoami) = "root" ]; then
 #     groupadd libvirt
 #     useradd -m -G wheel,libvirt -s /bin/bash $USERNAME 
