@@ -41,19 +41,12 @@ echo -ne "
                     Enabling Essential Services
 -------------------------------------------------------------------------
 "
-systemctl enable cups.service
-echo "  Cups enabled"
-ntpd -qg
-systemctl enable ntpd.service
-echo "  NTP enabled"
 systemctl disable dhcpcd.service
 echo "  DHCP disabled"
 systemctl stop dhcpcd.service
 echo "  DHCP stopped"
 systemctl enable NetworkManager.service
 echo "  NetworkManager enabled"
-systemctl enable bluetooth
-echo "  Bluetooth enabled"
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -92,22 +85,42 @@ cd abook && make install
 # Alder
 yarn global add @aweary/alder
 
+echo -ne "
+-------------------------------------------------------------------------
+                    Stowing configuration files
+-------------------------------------------------------------------------
+"
+# Removing default files
+rm -fvr $HOME/.bash*
+rm -fvr $HOME/.gitconfig
+
+# Dotfiles directory
+cd $HOME/.dotfiles
+
+# Stowing
+stow abook
+stow alsa
+stow bin
+stow bash
+stow dunst
+stow git
+stow gtk-2.0
+stow gtk-3.0
+stow htop
+stow irssi
+stow mbsync
+stow mimeapps
+stow mpd
+stow mpv
+stow mutt
 
 echo -ne "
 -------------------------------------------------------------------------
                     Cleaning
 -------------------------------------------------------------------------
 "
-# Remove no password sudo rights
-# sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
-# sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-# # Add sudo rights
-# sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-# sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-# rm -r $HOME/archNemo
-# rm -r /home/$USERNAME/archNemo
+rm -r $HOME/archNemo
+rm -r /home/
 
-# Replace in the same state
-# cd $pwd
 cd
