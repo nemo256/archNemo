@@ -92,14 +92,14 @@ cd ../slstatus && make clean install
 
 # Abook
 cd .. && git clone https://github.com/hhirsch/abook
-cd abook && make install
+cd abook && make && make install
 
 # Alder
 yarn global add @aweary/alder
 
 # Grabc
 cd .. && git clone https://github.com/muquit/grabc
-cd grabc && make install
+cd grabc && make && make install
 
 # Picom
 # cd .. && git clone https://github.com/jonaburg/picom
@@ -120,10 +120,9 @@ echo -ne "
                     Cloning backed up directories
 -------------------------------------------------------------------------
 "
-
-mkdir Downloads Videos Music Work
-git clone https://github.com/nemo256/Documents
-git clone https://github.com/nemo256/Pictures
+cd $HOME && mkdir Downloads Videos Music Work
+# git clone https://github.com/nemo256/Documents
+# git clone https://github.com/nemo256/Pictures
 cd Work
 git clone https://github.com/nemo256/archNemo
 git clone https://github.com/nemo256/collab
@@ -132,7 +131,7 @@ git clone https://github.com/nemo256/hotel
 git clone https://github.com/nemo256/portfolio
 git clone https://github.com/nemo256/Rproject
 git clone https://github.com/nemo256/tc
-cd
+cd $HOME
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -167,7 +166,7 @@ stow ncmpcpp
 stow neofetch
 stow newsboat
 stow notmuch
-stow neovim
+stow nvim
 stow ranger
 stow transmission-daemon
 stow tremc
