@@ -35,21 +35,11 @@ echo -ne "
 
 # Get user password (root only install)
 userinfo () {
-while true; do
-  echo -ne "Please enter your password: \n"
-  read -s password # read password without echo
+echo -ne "Please enter your password: "
+read -s password
 
-  echo -ne "Please repeat your password: \n"
-  read -s password2 # read password without echo
-
-  if [ "$password" = "$password2" ]; then
-    set_option USERNAME root
-    set_option PASSWORD $password
-    break
-  else
-    echo -e "\nPasswords do not match. Please try again. \n"
-  fi
-done
+set_option USERNAME root
+set_option PASSWORD $password
 }
 
 # Setting up configuration options
