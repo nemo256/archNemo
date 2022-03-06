@@ -146,7 +146,7 @@ rm -fvr $HOME/.config/*
 # Dotfiles directory
 cd $HOME/.dotfiles
 
-# Stowing
+# Stowing configuration files
 stow abook
 stow alsa
 stow bin
@@ -210,6 +210,21 @@ user_pref("network.protocol-handler.expose.magnet", false);
 
 echo -ne "
 -------------------------------------------------------------------------
+                    Fonts installation
+-------------------------------------------------------------------------
+"
+# Adding nerd font (Droid Sans Mono)
+mkdir -p ~/.fonts
+cd ~/.fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+
+# Update fonts
+fc-cache -f -v
+
+# Return back to home directory
+cd $HOME
+
+echo -ne "
+-------------------------------------------------------------------------
                     Slock configuration
 -------------------------------------------------------------------------
 "
@@ -263,4 +278,7 @@ echo -ne "
 "
 rm -fvr $HOME/archNemo
 
-cd
+echo "  Rebooting in 3..." && sleep 1
+echo "  Rebooting in 2..." && sleep 1
+echo "  Rebooting in 1..." && sleep 1
+reboot
