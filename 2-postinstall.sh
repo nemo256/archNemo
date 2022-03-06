@@ -27,8 +27,9 @@ echo -ne "
                     Creating grub boot menu
 --------------------------------------------------------------------------
 "
-# Set kernel parameter for adding splash screen
+# Optimize grub for macbook air and skip through it (I don't multiboot)
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& rootflags=data=writeback libata.force=1:noncq/' /etc/default/grub
+sed -i 's/^GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub
 sed -i 's/^#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/' /etc/default/grub
 
 # Updating grub
@@ -41,10 +42,12 @@ echo -ne "
                     Managing essential services
 -------------------------------------------------------------------------
 "
-systemctl disable transmission.service
-echo "  Transmission Daemon disabled"
 systemctl stop transmission.service
 echo "  Transmission Daemon stopped"
+killall -HUP transmission-da
+echo "  Killing all transmission sub processes"
+systemctl disable --now transmission.service
+echo "  Transmission disabled"
 systemctl disable dhcpcd.service
 echo "  DHCP disabled"
 systemctl stop dhcpcd.service
@@ -66,7 +69,7 @@ echo -ne "
                     Installing dwm, st...
 -------------------------------------------------------------------------
 "
-# Cloning dotfiles
+# Cloning my dotfiles
 cd $HOME
 git clone https://github.com/nemo256/.dotfiles
 
@@ -88,18 +91,25 @@ cd ../slock && make clean install
 cd ../slstatus && make clean install
 
 # Abook
-git clone https://github.com/hhirsch/abook
+cd .. && git clone https://github.com/hhirsch/abook
 cd abook && make install
 
 # Alder
 yarn global add @aweary/alder
 
 # Grabc
-git clone https://github.com/muquit/grabc
+cd .. && git clone https://github.com/muquit/grabc
 cd grabc && make install
 
+# Picom
+# cd .. && git clone https://github.com/jonaburg/picom
+# cd picom
+# meson --buildtype=release . build
+# ninja -C build
+# sudo ninja -C build install
+
 # Tremc
-git clone https://github.com/tremc/tremc
+cd .. && git clone https://github.com/tremc/tremc
 cd tremc && make install
 
 # Weather-cli
@@ -111,9 +121,9 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 
+mkdir Downloads Videos Music Work
 git clone https://github.com/nemo256/Documents
 git clone https://github.com/nemo256/Pictures
-mkdir Downloads Videos Music Work
 cd Work
 git clone https://github.com/nemo256/archNemo
 git clone https://github.com/nemo256/collab
@@ -188,6 +198,39 @@ git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger
 
 echo -ne "
 -------------------------------------------------------------------------
+                    Firefox configuration
+-------------------------------------------------------------------------
+"
+# Saving path to prefs.js file
+prefs=$(find $HOME/.mozilla/ -name '*prefs.js')
+
+# Adding magnet link support
+echo -ne '
+user_pref("network.protocol-handler.expose.magnet", false);
+' >> $prefs
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Slock configuration
+-------------------------------------------------------------------------
+"
+# Adding slock service
+echo -ne '[Unit]
+Description=Lock X session using slock for user %i
+Before=sleep.target
+
+[Service]
+User=%i
+Environment=DISPLAY=:0
+ExecStartPre=/usr/bin/xset dpms force suspend
+ExecStart=/usr/local/bin/slock
+
+[Install]
+WantedBy=sleep.target
+' > /etc/systemd/system/slock@.service
+
+echo -ne "
+-------------------------------------------------------------------------
                     Fixing default configuration
 -------------------------------------------------------------------------
 "
@@ -210,10 +253,9 @@ echo -ne "
                     Re-enabling essential services
 -------------------------------------------------------------------------
 "
-systemctl enable --now transmission.service
-echo "  Transmission Daemon enabled"
-systemctl start transmission.service
-echo "  Transmission Daemon started"
+# Enabling slock to lock screen on suspend / sleep
+systemctl enable slock@$(whoami).service
+echo "  Slock enabled"
 
 echo -ne "
 -------------------------------------------------------------------------
