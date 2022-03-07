@@ -75,7 +75,7 @@ git config --global user.name 'Amine Neggazi'
 git config --global user.email 'neggazimedlamine@gmail.com'
 
 # Enabling cached github credentials
-git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=0'
 
 << eof tr -d ' ' | git credential-cache store 
   protocol=https
