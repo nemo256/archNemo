@@ -38,8 +38,8 @@ userinfo () {
 echo -ne "Please enter your password: "
 read -s password
 
-echo -ne "Please enter your Github PAT: "
-read -rep PAT
+echo -ne "\nPlease enter your Github PAT: "
+read PAT
 
 set_option USERNAME root
 set_option TOKEN $PAT

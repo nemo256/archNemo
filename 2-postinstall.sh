@@ -75,7 +75,7 @@ git config --global user.name 'Amine Neggazi'
 git config --global user.email 'neggazimedlamine@gmail.com'
 
 # Enable git store credentials
-git config credential.helper store
+git config --global credential.helper store
 
 # Adding the credentials file
 echo -ne "https://nemo256:${TOKEN}@github.com" > $HOME/.git-credentials
