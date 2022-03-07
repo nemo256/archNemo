@@ -20,9 +20,8 @@ echo -ne "
       source $SCRIPT_DIR/setup.conf
     ( bash $SCRIPT_DIR/0-preinstall.sh )|& tee 0-preinstall.log
     ( arch-chroot /mnt $HOME/archNemo/1-install.sh )|& tee 1-install.log
-    ( arch-chroot /mnt $HOME/archNemo/2-postinstall.sh )|& tee 3-postinstall.log
+    ( arch-chroot /mnt $HOME/archNemo/2-postinstall.sh )|& tee 2-postinstall.log
     mkdir $HOME/log && cp -v *.log $HOME/log
-    mkdir /mnt/log/archNemo && cp -fvr $HOME/log /mnt/var/log/archNemo
 
 echo -ne "
 --------------------------------------------------------------------------

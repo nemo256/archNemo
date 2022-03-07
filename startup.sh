@@ -17,22 +17,6 @@ set_option() {
     echo "${1}=${2}" >>$CONFIG_FILE # add option
 }
 
-# My logo
-logo () {
-# This will be shown on every set as user is progressing
-echo -ne "
---------------------------------------------------------------------------
-  ░█████╗░██████╗░░█████╗░██╗░░██╗  ███╗░░██╗███████╗███╗░░░███╗░█████╗░
-  ██╔══██╗██╔══██╗██╔══██╗██║░░██║  ████╗░██║██╔════╝████╗░████║██╔══██╗
-  ███████║██████╔╝██║░░╚═╝███████║  ██╔██╗██║█████╗░░██╔████╔██║██║░░██║
-  ██╔══██║██╔══██╗██║░░██╗██╔══██║  ██║╚████║██╔══╝░░██║╚██╔╝██║██║░░██║
-  ██║░░██║██║░░██║╚█████╔╝██║░░██║  ██║░╚███║███████╗██║░╚═╝░██║╚█████╔╝
-  ╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝  ╚═╝░░╚══╝╚══════╝╚═╝░░░░░╚═╝░╚════╝░
---------------------------------------------------------------------------
-
-"
-}
-
 # Get user password (root only install)
 userinfo () {
 echo -ne "Please enter your password: "
@@ -48,7 +32,6 @@ set_option PASSWORD $password
 
 # Setting up configuration options
 clear
-logo
 userinfo
 set_option NAME_OF_MACHINE macbook
 set_option DESKTOP_ENV server

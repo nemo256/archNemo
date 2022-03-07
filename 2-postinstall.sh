@@ -168,7 +168,6 @@ stow alsa
 stow bin
 stow bash
 stow dunst
-stow git
 stow gtk-2.0
 stow gtk-3.0
 stow htop
@@ -293,8 +292,3 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 rm -fvr $HOME/archNemo
-
-echo "  Rebooting in 3..." && sleep 1
-echo "  Rebooting in 2..." && sleep 1
-echo "  Rebooting in 1..." && sleep 1
-reboot
