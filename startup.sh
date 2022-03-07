@@ -39,7 +39,7 @@ echo -ne "Please enter your password: "
 read -s password
 
 echo -ne "Please enter your Github PAT: "
-read -s PAT
+read -rep PAT
 
 set_option USERNAME root
 set_option TOKEN $PAT
