@@ -66,6 +66,26 @@ FONT="ter-v32b"
 
 echo -ne "
 -------------------------------------------------------------------------
+                    Github configuration
+-------------------------------------------------------------------------
+"
+# Git global configuration
+git config --global user.username 'nemo256'
+git config --global user.name 'Amine Neggazi'
+git config --global user.email 'neggazimedlamine@gmail.com'
+
+# Enabling cached github credentials
+git config --global credential.helper cache
+
+<< eof tr -d ' ' | git credential-cache store 
+  protocol=https
+  host=github.com
+  username=nemo256
+  password=${TOKEN}
+eof
+
+echo -ne "
+-------------------------------------------------------------------------
                     Installing dwm, st...
 -------------------------------------------------------------------------
 "
@@ -121,8 +141,8 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 cd $HOME && mkdir Downloads Videos Music Work
-# git clone https://github.com/nemo256/Documents
-# git clone https://github.com/nemo256/Pictures
+git clone https://github.com/nemo256/Documents
+git clone https://github.com/nemo256/Pictures
 cd Work
 git clone https://github.com/nemo256/archNemo
 git clone https://github.com/nemo256/collab
