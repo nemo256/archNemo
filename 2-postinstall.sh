@@ -74,15 +74,11 @@ git config --global user.username 'nemo256'
 git config --global user.name 'Amine Neggazi'
 git config --global user.email 'neggazimedlamine@gmail.com'
 
-# Enabling cached github credentials
-git config --global credential.helper 'cache --timeout=0'
+# Enable git store credentials
+git config credential.helper store
 
-<< eof tr -d ' ' | git credential-cache store 
-  protocol=https
-  host=github.com
-  username=nemo256
-  password=${TOKEN}
-eof
+# Adding the credentials file
+echo -ne "https://nemo256:${TOKEN}@github.com" > $HOME/.git-credentials
 
 echo -ne "
 -------------------------------------------------------------------------
