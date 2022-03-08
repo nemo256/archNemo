@@ -73,6 +73,7 @@ echo -ne "
 git config --global user.username 'nemo256'
 git config --global user.name 'Amine Neggazi'
 git config --global user.email 'neggazimedlamine@gmail.com'
+git config --global pull.rebase false
 
 # Enable git store credentials
 git config --global credential.helper store
