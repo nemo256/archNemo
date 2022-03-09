@@ -230,14 +230,14 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 # Adding nerd font (Droid Sans Mono)
-mkdir -p ~/.fonts
-cd ~/.fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+# mkdir -p ~/.fonts
+# cd ~/.fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 
 # Update fonts
-fc-cache -f -v
+# fc-cache -f -v
 
 # Return back to home directory
-cd $HOME
+# cd $HOME
 
 echo -ne "
 -------------------------------------------------------------------------
