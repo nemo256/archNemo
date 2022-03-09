@@ -31,7 +31,6 @@ set_option PASSWORD $password
 }
 
 # Setting up configuration options
-clear
 userinfo
 set_option NAME_OF_MACHINE macbook
 set_option DESKTOP_ENV server
