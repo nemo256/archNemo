@@ -216,6 +216,9 @@ echo -ne "
                     Firefox configuration
 -------------------------------------------------------------------------
 "
+# To generate config folder
+firefox
+
 # Saving path to prefs.js file
 prefs=$(find $HOME/.mozilla/ -name '*prefs.js')
 
